@@ -1,0 +1,58 @@
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+
+public class StudentForm extends Application {
+
+    @Override
+    public void start(Stage stage) {
+
+        TextField nameField = new TextField();
+        nameField.setPromptText("Enter Student Name");
+
+        // Gender (Radio Buttons)
+        ToggleGroup genderGroup = new ToggleGroup();
+        RadioButton male = new RadioButton("Male");
+        RadioButton female = new RadioButton("Female");
+        male.setToggleGroup(genderGroup);
+        female.setToggleGroup(genderGroup);
+
+        HBox genderBox = new HBox(10, male, female);
+
+        // Department (ComboBox)
+        ComboBox<String> dept = new ComboBox<>();
+        dept.getItems().addAll("IT", "CSE", "EEE", "ECE", "MECH");
+
+        // Submit button + TextArea
+        Button submit = new Button("Submit");
+        TextArea display = new TextArea();
+
+        submit.setOnAction(e -> {
+            String name = nameField.getText();
+            String gender = ((RadioButton) genderGroup.getSelectedToggle()).getText();
+            String department = dept.getValue();
+
+            display.setText(
+                "Student Information:\n" +
+                "Name: " + name + "\n" +
+                "Gender: " + gender + "\n" +
+                "Department: " + department
+            );
+        });
+
+        VBox root = new VBox(10, nameField, genderBox, dept, submit, display);
+        root.setPadding(new Insets(10));
+
+        stage.setScene(new Scene(root, 350, 350));
+        stage.setTitle("Student Information Form");
+        stage.show();
+    }
+
+    public static void main(String[] args) {
+        launch();
+    }
+}
